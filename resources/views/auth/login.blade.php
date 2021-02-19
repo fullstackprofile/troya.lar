@@ -15,13 +15,13 @@
                     <div class="card-body">
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
-                            <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="login-btn">
-                                        {{ __('Войти') }}
-                                    </button>
-                                </div>
-                            </div>
+{{--                            <div class="form-group row mb-0">--}}
+{{--                                <div class="col-md-8 offset-md-4">--}}
+{{--                                    <button type="submit" class="login-btn">--}}
+{{--                                        {{ __('Войти') }}--}}
+{{--                                    </button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                             <div id="login-nav-content" class="container">
                                 <ul class="nav nav-tabs">
                                     <li class="active phone-link"><a href="#phone" data-toggle="tab">по номеру телефона</a></li>
@@ -74,6 +74,13 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="login-btn">
+                                        {{ __('Войти') }}
+                                    </button>
                                 </div>
                             </div>
                         </form>
