@@ -42,6 +42,13 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Role');
     }
 
+    public static function getAllManagers(){
+        return User::select('id', 'user_name')->where('user_type', '=', 3)->get();
+    }
 
+
+    public static function getAllEngineers(){
+        return User::select('id', 'user_name')->where('user_type', '=', 5)->get();
+    }
 
 }

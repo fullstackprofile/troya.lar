@@ -1,0 +1,74 @@
+.projectService .projectService-content {
+    flex-direction: column;
+
+    & .row {
+        margin: 0;
+    }
+
+    & .column {
+        & .checkbox {
+            margin-right: 5px;
+        }
+    }
+
+    &.proj-state .column .checkbox {
+        min-width: 300px;
+
+        &.group-checkbox {
+            width: 300px;
+
+            & label {
+                line-height: 15px;
+            }
+        }
+    }
+}
+
+.engineers-content .column .checkbox {
+    min-width: 170px;
+}
+
+.region-select {
+    & .jq-selectbox {
+        & .jq-selectbox__dropdown {
+            width: 50%;
+        }
+    }
+}
+
+.my-requests-tbody tbody tr:hover{
+    cursor: pointer;
+}
+
+.tableAdaptive .show-event-table{
+    & tr th, & tr td {
+        padding: 30px 7px 30px 14px;
+    }
+}
+
+/* Select options scroll view */
+
+.select-wrapper {
+    & ul {
+        overflow: scroll;
+        height: 250px;
+        overflow-x: hidden;
+    }
+}
+
+.engineers-tasks {
+    & .jq-selectbox__dropdown {
+        width: 50%;
+    }
+}
+
+/* Clients request page */
+.calculations .tableAdaptive.clients-request-calc-table .table-p{
+    margin-right: 20px;
+    & tbody tr:hover {
+        cursor: pointer;
+        background-color: #ffffcc;
+        transition-duration: .4s;
+    }
+}
+

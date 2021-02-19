@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 @import "colors.scss";
 body{
 	margin: 0;
@@ -1247,7 +1247,7 @@ h1{
 	}
 	input{
 		margin: 0 0 0 12px;
-		width: 65px;
+		width: 100px;
 	}
 }
 .jq-select-multiple{
@@ -2976,3 +2976,102 @@ img{
 		}
 	}
 }
+
+/* Login page */
+.go-to-site {
+    width: 100%;
+    text-align: end;
+    & a {
+        color: grey;
+        & span {
+            color: #006843;
+            font-weight: 600;
+        }
+    }
+
+    & a:hover {
+        color: grey;
+        & span {
+            color: #006843;
+        }
+    }
+}
+
+.main-login-card {
+    border-color: white;
+    & .main-logo-header {
+        background-color: white;
+        border-color: white;
+        text-align: center;
+    }
+
+    .login-page-title {
+        text-align: center;
+        font-weight: 600;
+        margin: 20px 0 10px 0;
+        & h1 {
+            color: #006843;
+        }
+    }
+
+    .login-btn {
+        text-transform: uppercase;
+        border: none;
+        font-size: 22px;
+        font-weight: 500;
+        margin: 15px;
+        &:hover {
+            color: inherit;
+            background-color: white;
+        }
+    }
+}
+
+.login-bottom-content {
+    position: relative;
+    & .image-top {
+        position: absolute;
+        top: -7px;
+    }
+}
+main.py-4.no-pb0 {
+    padding-bottom: 0!important;
+    background: white;
+}
+
+#login-nav-content {
+    & ul.nav.nav-tabs {
+        padding: 0 20%;
+        border: none;
+        margin-bottom: 10px;
+
+        & li {
+            font-size: 14px;
+            padding: 0 20px;
+        }
+    }
+    & #phone-tel {
+        width: 70%;
+    }
+    .tab-pane {
+        //display: flex;
+        //justify-content: center;
+        //flex-direction: column;
+
+        & .phone-input-block {
+            display: flex;
+            justify-content: center;
+            margin-top: 22px;
+            & .create-an-account{
+                text-decoration: underline;
+                color: #006843;
+                font-weight: 600;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+

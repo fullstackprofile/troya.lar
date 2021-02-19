@@ -30,7 +30,8 @@ $(document).ready(function(){
         $("input.bel").mask("+375 99 999999");
 
         $("input").blur(function() {
-            $("#info").html("Unmasked value: " + $(this).mask());
+            // todo: need to check where this functionality is used!
+            // $("#info").html("Unmasked value: " + $(this).mask());
         }).dblclick(function() {
             $(this).unmask();
         });
@@ -62,4 +63,17 @@ $(document).ready(function(){
     });
     /* Tabs */
 
+    /* Checkbox */
+    $("#check-all-eng").click(function () {
+        $(".checkbox-eng").prop('checked', $(this).prop('checked'));
+    });
+    /* Checkbox */
+
+
+    /* Datepicker */
+    $(function() {
+        let reg = 'ru'; // 'uk' // todo: need to check where we get the region parameter from
+        $.datepicker.setDefaults($.datepicker.regional[reg]);
+        $(".set-datepicker").datepicker();
+    });
 });

@@ -19,8 +19,11 @@
 
     <link rel="icon" type="image/svg+xml" href="{{ asset('./favicon.ico') }}">
     <title>Name of project</title>
+    <link href="{{ asset('css/jquery-ui.min.css') }}" rel='stylesheet' type='text/css'>
     <link href="{{ asset('css/style.css') }}" rel='stylesheet' type='text/css'>
     <script src="{{ asset('js/jquery-3.1.1.js') }}" defer></script>
+    <script src="{{ asset('js/jquery-ui-1.12.1.min.js') }}" defer></script>
+    <script src="{{ asset('js/main-scripts.js') }}" defer></script>
     <script src="{{ asset('js/aside.js') }}" defer></script>
     <script src="{{ asset('js/request-part.js') }}" defer></script>
 </head>

@@ -122,8 +122,8 @@ $(document).ready(function () {
     $("input.ru").mask("+ 7 (999) 999 99 99");
     $("input.uk").mask("+38 099 999 99 99");
     $("input.bel").mask("+375 99 999999");
-    $("input").blur(function () {
-      $("#info").html("Unmasked value: " + $(this).mask());
+    $("input").blur(function () {// todo: need to check where this functionality is used!
+      // $("#info").html("Unmasked value: " + $(this).mask());
     }).dblclick(function () {
       $(this).unmask();
     });
@@ -152,6 +152,22 @@ $(document).ready(function () {
     $(tabs_id).addClass("active");
   });
   /* Tabs */
+
+  /* Checkbox */
+
+  $("#check-all-eng").click(function () {
+    $(".checkbox-eng").prop('checked', $(this).prop('checked'));
+  });
+  /* Checkbox */
+
+  /* Datepicker */
+
+  $(function () {
+    var reg = 'ru'; // 'uk' // todo: need to check where we get the region parameter from
+
+    $.datepicker.setDefaults($.datepicker.regional[reg]);
+    $(".set-datepicker").datepicker();
+  });
 });
 
 /***/ }),

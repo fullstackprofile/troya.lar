@@ -71,14 +71,12 @@
             </div>
         </div>
         <div class="tabs-con display-none" id="tabs2">
-            <form action="/psrequests/my/clients" method="get" id="psrequests2_filters_form">
-                @csrf
+            <form action="/psrequests/my/clients/" method="post" id="psrequests2_filters_form">
                 <div class="projectServices">
                     <div class="projectService">
                         <div class="projectService-label">Карточка объекта: </div>
                         <div class="projectService-content">
-                            <input type="text" class="short" name="psrequests2[filters][object_number]"
-                                value="{{isset($psFilters) && isset($psFilters['object_number']) ? $psFilters['object_number'] : ""}}">
+                            <input type="text" class="short" name="psrequests2[filters][object_number]">
                         </div>
                     </div>
                     <div class="projectService">
@@ -87,10 +85,7 @@
                             <select id="responsible-manager" name="psrequests2[filters][pm_id]">
                                 <option></option>
                                 @foreach($managers as $manager)
-                                    <option value="{{$manager->id}}"
-                                        {{(isset($psFilters) && isset($psFilters['pm_id']) &&
-                                        intval($psFilters['pm_id']) === $manager->id) ? 'selected' : ''}}
-                                    >{{$manager->user_name}}</option>
+                                    <option value="{{$manager->id}}">{{$manager->user_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -105,21 +100,23 @@
                                 <label for="check-all-eng">Выбрать всех</label>
                             </div>
                         </div>
-                        @for($i = 0; $i < count($engineers); $i+=4)
-                            <div class="column">
-                                @for($j = 0; $j < 4; $j++)
-                                        @if(isset($engineers[$i+$j]))
-                                            <div class="checkbox">
-                                                <input type="checkbox" class="checkbox-eng" id="engineers-{{$engineers[$i+$j]->id}}"
-                                                       name="psrequests2[filters][engineer_id][]" value="{{$engineers[$i+$j]->id}}"
-                                                    {{(isset($psFilters) && isset($psFilters['engineer_id']) &&
-                                                    in_array($engineers[$i+$j]->id, $psFilters['engineer_id'])) ? 'checked' : ''}}
-                                                >
-                                                <label for="engineers-{{$engineers[$i+$j]->id}}">{{$engineers[$i+$j]->user_name}}</label>
-                                            </div>
-                                        @endif
-                                @endfor
-                            </div>
+                        @for($i = 0, $set = false; $i < count($engineers); $i++)
+                            @if($i != 0 && ($i+4)%4 == 0)
+                                @php($set = false)
+                                </div>
+                            @endif
+                            @if($i%4 == 0)
+                                @php($set = true)
+                                <div class="column">
+                            @endif
+                                <div class="checkbox">
+                                    <input type="checkbox" class="checkbox-eng" id="engineers-{{$engineers[$i]->id}}"
+                                           name="psrequests2[filters][engineer_id][]" value="{{$engineers[$i]->id}}">
+                                    <label for="engineers-{{$engineers[$i]->id}}">{{$engineers[$i]->user_name}}</label>
+                                </div>
+                            @if($i == count($engineers)-1 && $set)
+                                </div>
+                            @endif
                         @endfor
                     </div>
                 </div>
@@ -129,10 +126,7 @@
                         <select name="psrequests2[filters][region_id]">
                             <option></option>
                             @foreach($ruRegions as $region)
-                                <option value="{{$region->id}}"
-                                    {{(isset($psFilters) && isset($psFilters['region_id']) &&
-                                    intval($psFilters['region_id']) === $region->id) ? 'selected' : ''}}
-                                >{{$region->region_title}}</option>
+                                <option value="{{$region->id}}">{{$region->region_title}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -140,20 +134,16 @@
                 <div class="projectService">
                     <div class="projectService-label">Название объекта:</div>
                     <div class="projectService-content">
-                        <input type="text" name="psrequests2[filters][object_name]"
-                               value="{{isset($psFilters) && isset($psFilters['object_name']) ? $psFilters['object_name'] : ""}}">
+                        <input type="text" name="psrequests2[filters][object_name]">
                     </div>
                 </div>
                 <div class="projectService">
                     <div class="projectService-label">Типология обекта:</div>
                     <div class="projectService-content">
                         <select name="psrequests2[filters][top_id][]" multiple="multiple">
-                            <option value="{{null}}">[Не выбрано]</option>
+                            <option>[Не выбрано]</option>
                             @foreach($tops as $top)
-                                <option value="{{$top->id}}"
-                                    {{(isset($psFilters) && isset($psFilters['top_id']) &&
-                                        in_array(intval($top->id), $psFilters['top_id'])) ? 'selected' : ''}}
-                                >{{$top->item_title}}</option>
+                                <option value="{{$top->id}}">{{$top->item_title}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -161,42 +151,46 @@
                 <div class="projectService">
                     <div class="projectService-label">Статус:</div>
                     <div class="projectService-content proj-state">
-                        @for($i = 0; $i < count($statuses); $i+=3)
-                            <div class="column">
-                                @for($j = 0; $j < 3; $j++)
-                                    @if(isset($statuses[$i+$j]))
-                                        <div class="checkbox">
-                                            <input type="checkbox" class="checkbox-status" id="statuses-{{$statuses[$i+$j]->id}}"
-                                                   name="psrequests2[filters][status][]" value="{{$statuses[$i+$j]->id}}"
-                                                {{(isset($psFilters) && isset($psFilters['status']) &&
-                                                in_array($statuses[$i+$j]->id, $psFilters['status'])) ? 'checked' : ''}}
-                                            >
-                                            <label for="statuses-{{$statuses[$i+$j]->id}}">{{$statuses[$i+$j]->title}}</label>
-                                        </div>
-                                    @endif
-                                @endfor
-                            </div>
+                        @for($i = 0, $set = false; $i < count($statuses); $i++)
+                            @if($i != 0 && ($i+3)%3 == 0)
+                                @php($set = false)
+                                </div>
+                            @endif
+                            @if($i%3 == 0)
+                                @php($set = true)
+                                <div class="column">
+                            @endif
+                                <div class="checkbox">
+                                    <input type="checkbox" class="checkbox-status" id="statuses-{{$statuses[$i]->id}}"
+                                           name="psrequests2[filters][status][]" value="{{$statuses[$i]->id}}">
+                                    <label for="statuses-{{$statuses[$i]->id}}">{{$statuses[$i]->title}}</label>
+                                </div>
+                            @if($i == count($statuses)-1 && $set)
+                                </div>
+                            @endif
                         @endfor
                     </div>
                 </div>
                 <div class="projectService">
                     <div class="projectService-label">Товарные группы в запросе:</div>
                     <div class="projectService-content proj-state">
-                        @for($i = 0; $i < count($groups); $i+=2)
-                            <div class="column">
-                                @for($j = 0; $j < 2; $j++)
-                                    @if(isset($groups[$i+$j]))
-                                        <div class="checkbox group-checkbox">
-                                            <input type="checkbox" class="checkbox-groups" id="groups-{{$groups[$i+$j]->id}}"
-                                                   name="psrequests2[filters][psgroups_checked][]" value="{{$groups[$i+$j]->id}}"
-                                                {{(isset($psFilters) && isset($psFilters['psgroups_checked']) &&
-                                                    in_array($groups[$i+$j]->id, $psFilters['psgroups_checked'])) ? 'checked' : ''}}
-                                            >
-                                            <label for="groups-{{$groups[$i+$j]->id}}">{{$groups[$i+$j]->title}}</label>
-                                        </div>
-                                    @endif
-                                @endfor
-                            </div>
+                        @for($i = 0, $set = false; $i < count($groups); $i++)
+                            @if($i != 0 && ($i+2)%2 == 0)
+                                @php($set = false)
+                                </div>
+                            @endif
+                            @if($i%2 == 0)
+                                @php($set = true)
+                                <div class="column">
+                            @endif
+                                <div class="checkbox group-checkbox">
+                                    <input type="checkbox" class="checkbox-groups" id="groups-{{$groups[$i]->id}}"
+                                           name="psrequests2[filters][psgroups_checked][]" value="{{$groups[$i]->id}}">
+                                    <label for="groups-{{$groups[$i]->id}}">{{$groups[$i]->title}}</label>
+                                </div>
+                            @if($i == count($groups)-1 && $set)
+                                </div>
+                            @endif
                         @endfor
                     </div>
                 </div>
@@ -206,11 +200,9 @@
                     </div>
                     <div class="projectService-content engineers-tasks">
                         <select class="short" name="psrequests2[filters][tech_task_filter]">
-                            <option value="{{null}}">[Не выбрано]</option>
-                            <option value="1" {{(isset($psFilters) && isset($psFilters['tech_task_filter']) &&
-                                    $psFilters['tech_task_filter'] == '1') ? 'selected' : ''}}>Заполнено</option>
-                            <option value="2" {{(isset($psFilters) && isset($psFilters['tech_task_filter']) &&
-                                    $psFilters['tech_task_filter'] == '2') ? 'selected' : ''}}>Не заполнено</option>
+                            <option>[Не выбрано]</option>
+                            <option value="1">Заполнено</option>
+                            <option value="2">Не заполнено</option>
                         </select>
                     </div>
                 </div>
@@ -222,15 +214,13 @@
                         <div class="form-to">
                             <div>
                                 От
-                                <input type="text" name="psrequests2[filters][date_execution1]" class="date getDate set-datepicker" maxlength="10" size="10"
-                                       value="{{isset($psFilters) && isset($psFilters['date_execution1']) ? $psFilters['date_execution1'] : ""}}"
-                                >
+                                <input type="text" name="psrequests2[filters][date_execution1]" class="date getDate set-datepicker"
+                                       maxlength="10" size="10">
                             </div>
                             <div>
                                 До
-                                <input type="text" name="psrequests2[filters][date_execution2]" class="date getDate set-datepicker" maxlength="10" size="10"
-                                       value="{{isset($psFilters) && isset($psFilters['date_execution2']) ? $psFilters['date_execution2'] : ""}}"
-                                >
+                                <input type="text" name="psrequests2[filters][date_execution2]" class="date getDate set-datepicker"
+                                       maxlength="10" size="10">
                             </div>
                         </div>
                     </div>
@@ -243,15 +233,13 @@
                         <div class="form-to">
                             <div>
                                 От
-                                <input type="text" name="psrequests2[filters][date_status1]" class="date getDate set-datepicker" maxlength="10" size="10"
-                                       value="{{isset($psFilters) && isset($psFilters['date_status1']) ? $psFilters['date_status1'] : ""}}"
-                                >
+                                <input type="text" name="psrequests2[filters][date_status1]" class="date getDate set-datepicker"
+                                       maxlength="10" size="10">
                             </div>
                             <div>
                                 До
-                                <input type="text" name="psrequests2[filters][date_status2]" class="date getDate set-datepicker" maxlength="10" size="10"
-                                       value="{{isset($psFilters) && isset($psFilters['date_status2']) ? $psFilters['date_status2'] : ""}}"
-                                >
+                                <input type="text" name="psrequests2[filters][date_status2]" class="date getDate set-datepicker"
+                                       maxlength="10" size="10">
                             </div>
                         </div>
                     </div>

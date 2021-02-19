@@ -7,6 +7,8 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-@import './style';
-@import './aside';
-@import './additional-styles';
+@import './jquery-ui.combobox.scss';
+@import './jquery-ui.timepickers.scss';
+@import 'style';
+@import 'aside';
+@import 'additional-styles';

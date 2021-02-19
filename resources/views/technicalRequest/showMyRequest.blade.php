@@ -250,12 +250,12 @@
                 <div class="calculations">
                     <div class="calculations-title">Поверхностный водоотвод серий PolyMax, BetoMax, CompoMax</div>
                     <ul>
-                        <li><a href="#">Подбор лотка по расходу сточных вод</a></li>
-                        <li><a href="#">Подбор лотка по площади водосбора</a></li>
-                        <li><a href="#">Подбор лотка на эксплуатируемой кровле</a></li>
+                        <li><a href="/calcs-trays/step_1/calc_type-1/psrequest_id-{{$reqId}}">Подбор лотка по расходу сточных вод</a></li>
+                        <li><a href="/calcs-trays/step_1/calc_type-3/psrequest_id-{{$reqId}}/">Подбор лотка по площади водосбора</a></li>
+                        <li><a href="/calcs-trays/step_1/calc_type-2/psrequest_id-{{$reqId}}/">Подбор лотка на эксплуатируемой кровле</a></li>
                     </ul>
                     <div class="calculations-table-title">Мои расчеты</div>
-                    <div class="tableAdaptive">
+                    <div class="tableAdaptive clients-request-calc-table">
                         <table class="table-p">
                             <tr class="gray">
                                 <th>Название объекта</th>
@@ -263,20 +263,22 @@
                                 <th>Регион объекта</th>
                                 <th>Дата создания</th>
                             </tr>
-                            <tr class="green">
-                                <td data-label="Название объекта">
-                                    16.12.2020 Марий Эл строительство автодороги<br> Ирнур
-                                </td>
-                                <td data-label="Тип расчета">
-                                    Расчет линейного водоотвода серий<br> Poly Max, BetoMax, CompoMax
-                                </td>
-                                <td data-label="Регион объекта">
-                                    Республика- Марий Эл
-                                </td>
-                                <td data-label="Дата создания">
-                                    16.12.2020
-                                </td>
-                            </tr>
+                            @foreach($myCalcs as $calc)
+                                <tr class="green" onclick="location.href='/calcs-trays/show-{{$calc->id}}/'">
+                                    <td data-label="Название объекта">
+                                        {{$calc->title}}
+                                    </td>
+                                    <td data-label="Тип расчета">
+                                        @lang('calc2/calcs_trays/etc/calcs_trays.'.$calc->calc_model)
+                                    </td>
+                                    <td data-label="Регион объекта">
+                                        {{$calc->region_title}}
+                                    </td>
+                                    <td data-label="Дата создания">
+                                        {{$calc->created_date}}
+                                    </td>
+                                </tr>
+                            @endforeach
                         </table>
                     </div>
                 </div>
@@ -288,20 +290,24 @@
                         <a href="#">Требуемые исходные данные</a>
                     </div>
                     <div class="projectService-content max-width">
-                        Необходимо провести гидравлический расчет и подобрать бетонный лоток с решеткой Е600 (выпуск из лотка на рельеф). Комментарий от ПО: "Мы считали расход для ваших лотков на вашем сайте со следующими данными: площадь водосбора - 0,388 га, уклон лога - 2,1 %, длина лога 1,7 км пашня, длина непосредственно лотка - 10 м, уклон лотка - 2 % . У нас вышло грубо лоток сечением 200х200 мм. Посчитайте, пожалуйста с вышеуказанными данными что у вас получиться. Лоток будет через проезжую часть с решёткой Е 600 самый дешёвый."
+                        {{$clientReq->tech_task_description}}
                     </div>
                 </div>
                 <div class="projectService-title">
                     Файлы материалов
                 </div>
-                <div class="projectService">
-                    <div class="projectService-label long">
-                        Прикрепить файлы материалов 1
-                    </div>
-                    <div class="projectService-content">
-                        <a href="#">План-500 PDF</a>
-                    </div>
-                </div>
+                @if($attachFiles && is_object($attachFiles))
+                    @foreach($attachFiles as $key => $file)
+                        <div class="projectService">
+                            <div class="projectService-label long">
+                                Прикрепить файлы материалов {{$key + 1}}
+                            </div>
+                            <div class="projectService-content">
+                                <a href="#">{{$file->file_name}}</a>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
                 <div class="projectService">
                     <div class="projectService-label long">
                         Прикрепить файлы материалов 1
