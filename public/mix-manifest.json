@@ -5,6 +5,8 @@
     "/js/request-part.js": "/js/request-part.js",
     "/js/jquery-3.1.1.js": "/js/jquery-3.1.1.js",
     "/js/jquery-ui-1.12.1.min.js": "/js/jquery-ui-1.12.1.min.js",
+    "/js/jquery.min.js": "/js/jquery.min.js",
+    "/js/bootstrap-nav.min.js": "/js/bootstrap-nav.min.js",
     "/css/jquery-ui.min.css": "/css/jquery-ui.min.css",
     "/js/main-scripts.js": "/js/main-scripts.js"
 }

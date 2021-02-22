@@ -14611,3 +14611,8 @@ main.py-4.no-pb0 {
   transition-duration: 0.4s;
 }
 
+button.btn.update-req-status {
+  margin: 0 5px;
+  min-width: 110px;
+}
+

@@ -17,6 +17,7 @@ class PsrequestsTwo extends Model
             'psrequests2.object_name',
             'psrequests2.date_status',
             'psrequests2.date_execution',
+            'psstatuses.id as status_id',
             'psstatuses.title',
             'psstatuses.color',
             'psrequests2.object_number',

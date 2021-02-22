@@ -29,11 +29,14 @@ Route::group(['as'=>'admin.','prefix' => 'admin','namespace'=>'Admin','middlewar
     Route::get('dashboard', 'Admin\DashboardController@index')->name('dashboard');
 });
 
-
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@admin')->name('admin')->middleware('admin');
 Route::get('/customer', 'HomeController@customer')->name('customer')->middleware('customer');
 Route::get('/psrequests/my/{type?}', 'HomeController@psRequests')->name('psRequests')->middleware('admin');
+Route::get('/psrequests/my/clients/', 'HomeController@psRequests')->name('psRequests.clients')->middleware('admin');
+Route::post('/psrequests/my/update-status/{id}', 'HomeController@updateStatus')->name('update.status')->middleware('admin');
+Route::get('/psrequests/my/delete-status/{id}', 'HomeController@deleteStatus')->name('delete.status')->middleware('admin');
 
 
 //Route::get('/admin', 'HomeController@admin')->name('admin')->middleware('admin');

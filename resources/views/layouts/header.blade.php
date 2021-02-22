@@ -20,7 +20,7 @@
         <div class="name">
             Сотрудник (МПО): <a href="#">{{$user->user_name}}</a>
         </div>
-        <a href="#" class="log-out">
+        <a href="{{route('logout')}}" class="log-out">
             <img src="/images/icons/log-out.svg" alt="">
             Выйти
         </a>
