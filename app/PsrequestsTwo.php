@@ -24,7 +24,9 @@ class PsrequestsTwo extends Model
             'psdirectories.item_code',
             'psdirectories.item_title',
             'psrequests2.top_id',
-            'psrequests2.tech_task_description'
+            'psrequests2.tech_task_description',
+            'psrequests2.cloud_path',
+            'psrequests2.psgroups_checked'
         )->where('psrequests2.type', $type);
         if(!$id){
             $query->addSelect(

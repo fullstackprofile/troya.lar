@@ -77,3 +77,52 @@ button.btn.update-req-status {
     min-width: 110px;
 }
 
+.events-bottom.event-client-request-content {
+    & .jq-selectbox .jq-selectbox__dropdown {
+        width: auto;
+    }
+}
+
+#psrequest_status_new_form {
+    .jq-selectbox .jq-selectbox__select {
+        width: 50%;
+    }
+
+    & input.file {
+        width: auto;
+        border: none;
+        height: 25px;
+        margin-top: 5px;
+    }
+
+    & input.field-file-url, & input.field-date-execution {
+        width: 50%;
+        margin-top: 5px;
+    }
+}
+
+.calculations.inner-calc {
+    & .calculations-title {
+        font-weight: 800;
+        margin: 25px 0 5px 0;
+    }
+}
+
+.new-directory, div.project_files_form {
+    display: none;
+    & .new-directory-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: $green;
+    }
+
+    & .dir-name-label {
+        color: $green;
+    }
+}
+
+input#project_files_form_name {
+    width: 50%;
+    height: 32px;
+    padding: 3px;
+}

@@ -14616,3 +14616,52 @@ button.btn.update-req-status {
   min-width: 110px;
 }
 
+.events-bottom.event-client-request-content .jq-selectbox .jq-selectbox__dropdown {
+  width: auto;
+}
+
+#psrequest_status_new_form .jq-selectbox .jq-selectbox__select {
+  width: 50%;
+}
+
+#psrequest_status_new_form input.file {
+  width: auto;
+  border: none;
+  height: 25px;
+  margin-top: 5px;
+}
+
+#psrequest_status_new_form input.field-file-url,
+#psrequest_status_new_form input.field-date-execution {
+  width: 50%;
+  margin-top: 5px;
+}
+
+.calculations.inner-calc .calculations-title {
+  font-weight: 800;
+  margin: 25px 0 5px 0;
+}
+
+.new-directory,
+div.project_files_form {
+  display: none;
+}
+
+.new-directory .new-directory-title,
+div.project_files_form .new-directory-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #006843;
+}
+
+.new-directory .dir-name-label,
+div.project_files_form .dir-name-label {
+  color: #006843;
+}
+
+input#project_files_form_name {
+  width: 50%;
+  height: 32px;
+  padding: 3px;
+}
+

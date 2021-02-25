@@ -37,6 +37,8 @@ $(document).ready(function(){
         });
 
         $('#tabs1.tabs-con').addClass("active");
+        $('.clients-requests-content.view-request #tabs1.tabs-con').removeClass("active");
+        $('.clients-requests-content.view-request #tabs2.tabs-con').addClass("active");
     });
 
 
@@ -76,4 +78,35 @@ $(document).ready(function(){
         $.datepicker.setDefaults($.datepicker.regional[reg]);
         $(".set-datepicker").datepicker();
     });
+
+    /* Client request page */
+    /* Event tap */
+    $('.event-select-status').on('change', function (){
+        let val = $(this).val();
+        if(val && val !== ''){
+            $('.status-custom').hide();
+            $(`#psrequest_status_new_form .status-custom.status-${val}`).show();
+        }
+    });
+
+    $('#psrequest_status_new_form .select-upload-option').on('change', function (){
+        let val = $(this).val();
+        if(val && val !== ""){
+            $(this).parent().parent('.field').children('.file-option').hide();
+            $(this).parent().parent('.field').children(`.file-option.file-option-${val}`).show();
+        }
+    });
+
+    $('.toggle-create-directory').on('click', function (e){
+        e.preventDefault();
+        $('.new-directory').toggle();
+    });
+
+    $('.toggle-upload-file').on('click', function (e){
+        e.preventDefault();
+        $('.project_files_form').toggle();
+    });
+
+
+
 });

@@ -128,6 +128,8 @@ $(document).ready(function () {
       $(this).unmask();
     });
     $('#tabs1.tabs-con').addClass("active");
+    $('.clients-requests-content.view-request #tabs1.tabs-con').removeClass("active");
+    $('.clients-requests-content.view-request #tabs2.tabs-con').addClass("active");
   });
   $('.tabs-nav').on('click', 'li:not(.active)', function () {
     $(this).addClass('active').siblings().removeClass('active').closest('div.tabs-nav').find('div.tab-content').removeClass('active').eq($(this).index()).addClass("active");
@@ -167,6 +169,34 @@ $(document).ready(function () {
 
     $.datepicker.setDefaults($.datepicker.regional[reg]);
     $(".set-datepicker").datepicker();
+  });
+  /* Client request page */
+
+  /* Event tap */
+
+  $('.event-select-status').on('change', function () {
+    var val = $(this).val();
+
+    if (val && val !== '') {
+      $('.status-custom').hide();
+      $("#psrequest_status_new_form .status-custom.status-".concat(val)).show();
+    }
+  });
+  $('#psrequest_status_new_form .select-upload-option').on('change', function () {
+    var val = $(this).val();
+
+    if (val && val !== "") {
+      $(this).parent().parent('.field').children('.file-option').hide();
+      $(this).parent().parent('.field').children(".file-option.file-option-".concat(val)).show();
+    }
+  });
+  $('.toggle-create-directory').on('click', function (e) {
+    e.preventDefault();
+    $('.new-directory').toggle();
+  });
+  $('.toggle-upload-file').on('click', function (e) {
+    e.preventDefault();
+    $('.project_files_form').toggle();
   });
 });
 

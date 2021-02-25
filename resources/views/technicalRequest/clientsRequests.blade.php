@@ -36,7 +36,7 @@
                     @foreach($clientsReq as $req)
                         <tr style="background-color:{{$req->color}};" onclick="location.href='/psrequests/my/show-{{$req->ps_id}}/'">
                             <td data-label="Карточка клиента">
-                                <div class="tableGreen">РМ000{{$req->ps_id}}</div>
+                                <div class="tableGreen">{{$req->ps_id}}</div>
                             </td>
                             <td data-label="Клиент">
                                 {{$req->user_name}}

@@ -37,7 +37,8 @@ Route::get('/psrequests/my/{type?}', 'HomeController@psRequests')->name('psReque
 Route::get('/psrequests/my/clients/', 'HomeController@psRequests')->name('psRequests.clients')->middleware('admin');
 Route::post('/psrequests/my/update-status/{id}', 'HomeController@updateStatus')->name('update.status')->middleware('admin');
 Route::get('/psrequests/my/delete-status/{id}', 'HomeController@deleteStatus')->name('delete.status')->middleware('admin');
-
+Route::post('/create-cloud-path/', 'HomeController@createCloudPath')->name('create.cloud')->middleware('admin');
+Route::post('/upload-file-in-directory/', 'HomeController@uploadFileInDirectory')->name('upload.in.directory')->middleware('admin');
 
 //Route::get('/admin', 'HomeController@admin')->name('admin')->middleware('admin');
 //Route::get('/checkAuth', 'HomeController@checkAuth')->name('checkAuth');

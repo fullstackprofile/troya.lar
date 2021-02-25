@@ -14,6 +14,17 @@ use App\Psstatuses;
 use App\Psdirectories;
 use App\PsrequestStatuses;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+/* Calcs Models */
+use App\CalcsTrays;
+use App\CalcsSteelmax;
+use App\CalcsTanks;
+use App\CalcsLositems;
+use App\CalcsKns;
+use App\CalcsInoxpark;
+use App\CalcsFloorings;
+use App\CalcsTunnels;
+
 
 class HomeController extends Controller
 {
@@ -30,6 +41,40 @@ class HomeController extends Controller
     const STATUS_MATERIALS	= 8;
     /* deprecated */ const STATUS_PREFEEDBACK	= 85;
     /* deprecated */ const STATUS_FEEDBACK	= 9;
+
+    /* calcs url data parameters */
+
+    public $calcsUrl = array(
+        'calcs_trays' => 'calcs-trays',
+        'calcs_steelmax' => 'calcs-steelmax',
+        'calcs_tanks' => 'calcs-tanks',
+        'calcs_lositems' => 'calcs-los',
+        'calcs_kns' => 'calcs-kns',
+        'calcs_inoxpark' => 'calcs-inoxpark',
+        'calcs_floorings' => 'calcs-floorings',
+        'calcs_tunnels' => 'calcs-tunnels'
+    );
+
+    /**
+     * @noinspection PhpMissingReturnTypeInspection
+     * Ps groups config array
+     */
+    protected function _importGetPsgroupsMeta()
+    {
+        return array(
+            1 => array(10,0),
+            13 => array(15,1),
+            2 => array(20,2),
+            3 => array(25,3),
+            4 => array(30,4),
+            11 => array(35,5),
+            8 => array(40,6),
+            9 => array(45,7),
+            10 => array(50,8),
+            6 => array(55,9),
+            12 => array(10,0),
+        );
+    }
 
     /**
      * Create a new controller instance.
@@ -106,6 +151,7 @@ class HomeController extends Controller
         $events = [];
         $reqStatus = [];
         $stAllowed = [];
+        $allCalcs = [];
         $psFilters = null;
         $attachFiles = null;
 
@@ -132,6 +178,8 @@ class HomeController extends Controller
             if($res && count($res)){
                 $clientReq = $res[0];
             }
+            $allCalcs = $this->getAllListsOfCalculations($reqId);
+            $groups = Psgroups::getGroups();
             $view = 'showMyRequest';
         }else if($type == 'clients'){
             $view = 'clientsRequests';
@@ -168,6 +216,7 @@ class HomeController extends Controller
             'events' => $events,
             'reqStatus' => $reqStatus,
             'stAllowed' => $stAllowed,
+            'allCalcs' => $allCalcs,
         ]);
     }
 
@@ -201,5 +250,98 @@ class HomeController extends Controller
         }else {
             return redirect()->back()->withErrors("Произошла ошибка во время удаление статуса!");
         }
+    }
+
+    public function getAllListsOfCalculations($id){
+        $result[20] = [];
+        $result[10] = $this->getCalcTypeMenuListUrl($id, CalcsTrays::getCalcTypeMenuList());
+        $result[15] = $this->getCalcTypeMenuListUrl($id, CalcsSteelmax::getCalcTypeMenuList());
+        $resultT20 = $this->getCalcTypeMenuListUrl($id, CalcsTanks::getCalcTypeMenuList());
+        $resultL20 = $this->getCalcTypeMenuListUrl($id, CalcsLositems::getCalcTypeMenuList());
+        $resultK20 = $this->getCalcTypeMenuListUrl($id, CalcsKns::getCalcTypeMenuList());
+
+        $result[25] = $this->getCalcTypeMenuListUrl($id, CalcsInoxpark::getCalcTypeMenuList());
+        $result[30] = $this->getCalcTypeMenuListUrl($id, CalcsFloorings::getCalcTypeMenuList());
+        $result[35] = $this->getCalcTypeMenuListUrl($id, CalcsTunnels::getCalcTypeMenuList());
+
+        foreach ($resultT20 as $key => $value) {
+            array_push($result[20], $value);
+        }
+        foreach ($resultL20 as $key => $value) {
+            array_push($result[20], $value);
+        }
+        foreach ($resultK20 as $key => $value) {
+            array_push($result[20], $value);
+        }
+
+        return $result;
+    }
+
+
+    public function getCalcTypeMenuListUrl($id, $data){
+        $result = [];
+        if(isset($data['items']) && count($data['items'])){
+            foreach ($data['items'] as $key => $item){
+                $elem = [
+                    "url" => "/".$this->calcsUrl[$data['type']]."/step_1/calc_type-".$key."/psrequest_id-".$id,
+                    "title" => $item
+                ];
+                array_push($result, $elem);
+            }
+        }
+        return $result;
+    }
+
+    public function createCloudPath(Request $request){
+        $directoryName = $request->input('directory-name');
+        $userName = $request->input('user-name');
+        $cloudPath = $request->input('cloud-path');
+
+        if($cloudPath !== ""){
+            $cloudPath = str_replace("/", "\\", $cloudPath);
+        }
+        $directoryName = trim($directoryName);
+//        $directory = strtolower(str_replace(" ", "-", $directoryName));
+        $directory = $directoryName."  (".$userName.")";
+        $mainPath = public_path("uploads\cloud\Data\\".$cloudPath);
+//        $scan = scandir($mainPath, 1);
+        $path = $mainPath.$directory;
+        if(!File::exists($path) && $directoryName){
+            File::makeDirectory($path, 0777, true, true);
+        }
+
+        /* Automatically creates directories */
+        if(!File::exists($mainPath."КП внутренних поставщиков")){
+            File::makeDirectory($mainPath."КП внутренних поставщиков", 0777, true, true);
+        }
+        if(!File::exists($mainPath."Материалы для ИПС")){
+            File::makeDirectory($mainPath."Материалы для ИПС", 0777, true, true);
+        }
+        return redirect()->back();
+    }
+
+    public function uploadFileInDirectory(Request $request) {
+        $file = $request->file('file');
+        $cloudPath = $request->input('cloud-path');
+        if($cloudPath !== ""){
+            $cloudPath = str_replace("/", "\\", $cloudPath);
+        }
+        if($file){
+            $directoryName = trim($request->input('dir_name'));
+            $fileName = time().'_'.$request->file->getClientOriginalName();
+            $extension = $request->file->extension();
+            $allowed = Psfiles::getAllowedFormats();
+            $makeRoll = implode( ',', $allowed );
+            $request->validate([
+                "file" => "required|mimes:".$makeRoll."|max:2048"
+            ]);
+            if($request->file()){
+                $destinationPath = public_path("uploads\cloud\Data\\".$cloudPath."\\".$directoryName);
+                $file->move($destinationPath, $fileName);
+                return redirect()->back();
+            }
+            return redirect()->back()->withErrors(['Неправильный формат файла !'.' Доступные форматы: '.$makeRoll]);
+        }
+        return redirect()->back()->withErrors(['Файл не выбран !']);
     }
 }
